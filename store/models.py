@@ -1,7 +1,14 @@
 from django.db import models
 
+class Promotion(models.Model):
+    description = models.CharField(max_length=255)
+    discount = models.FloatField()
+
 class Collection(models.Model):
     title = models.CharField(max_length=255)
+    featured_product = models.ForeignKey(
+        'Product', on_delete=models.SET_NULL, null=True, related_name="+"
+    )
 
 class Product(models.Model):
     title = models.CharField(max_length=255) #varchar 255 
@@ -10,6 +17,7 @@ class Product(models.Model):
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
+    promotions = models.ManyToManyField(Promotion)
 
 #HACK: Sometimes we cannot arrange our code in such a way that Parent class is further up than the Child class.
 # In such cases, we can pass the Parent Class as string. For example 'Collection' instead of the actaul class 
@@ -43,7 +51,7 @@ class Order(models.Model):
         (PAYMENT_STATUS_FAILED, 'Failed'),
     ]
     placed_at = models.DateTimeField(auto_now_add=True)
-    payment_status = models.CharField(max_length=1,choices=MEMBERSHIP_CHOICES, default=PAYMENT_STATUS_PENDING)
+    payment_status = models.CharField(max_length=1,choices=PAYMENT_STATUS_CHOICES, default=PAYMENT_STATUS_PENDING)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 
 class OrderItem(models.Model):
