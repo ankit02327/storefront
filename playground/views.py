@@ -4,16 +4,10 @@ from django.db.models import Q, F
 from store.models import Product
 
 def say_hello(request):
-    # Sorting the data
-    query_set = Product.objects.order_by('title')
+    # 0, 1, 2, 3, 4
+    query_set = Product.objects.all()[:5]
 
-    # product = Product.objects.latest('price')
-    # product = Product.objects.earliest('price')
-    # product = Product.objects.order_by('price')[0]
-    # query_set = Product.objects.filter(collection__id=1).order_by('price')
-    # query_set = Product.objects.order_by('title').reverse()
-    # query_set = Product.objects.order_by('price', '-title')
-    # query_set = Product.objects.order_by('-title')
+    # query_set = Product.objects.all()[5:10] # 5,6,7,8,9
     for product in query_set:
         print(product)
 
