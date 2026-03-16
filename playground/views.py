@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.db.models import Q
+from django.db.models import Q, F
 from store.models import Product
 
 def say_hello(request):
-    # Products: inventory < 10 or price < 20
-    query_set = Product.objects.filter(Q(inventory__lt=10) | Q(price__lt=20))
+    # Products: inventory = price 
+    query_set = Product.objects.filter(inventory=F('price'))
 
     for product in query_set:
         print(product)
