@@ -3,10 +3,18 @@ from django.http import HttpResponse
 from django.db.models import Q, F, Value, Func, Count, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat 
 from django.db.models.aggregates import Count, Max, Min, Avg, Sum
+from django.contrib.contenttypes.models import ContentType 
 from store.models import Product, OrderItem, Customer
+from tags.models import TaggedItem
 
 def say_hello(request):
-    discounted_price = ExpressionWrapper(F('price')*0.8, output_field=DecimalField())
-    queryset = Product.objects.annotate(
-        discounted_price = discounted_price)
-    return render(request, 'hello.html', { 'name': 'Ankit', 'result': queryset})
+    content_type = ContentType.objects.get_for_model(Product)
+    
+    queryset = TaggedItem.objects \
+        .select_related('tag') \
+        .filter(
+        content_type=content_type,
+        object_id=1
+        )
+
+    return render(request, 'hello.html', { 'name': 'Ankit', 'tags': queryset})
