@@ -4,9 +4,15 @@ from django.db.models import Q, F
 from store.models import Product, OrderItem
 
 def say_hello(request):
-    query_set = Product.objects.only('id','title')
+    # select_related (1)
+    # prefetch_related (n)
+    query_set = Product.objects.select_related('collection').all()
 
-    # query_set = Product.objects.defer('description')
+    # query_set = Order.objects.select_related('customer').prefetch_related('orderitem_set__product').order_by('-placed_at')[:5]
+    # query_set = Product.objects.prefetch_related('promotions').select_related('collection').all()
+    # query_set = Product.objects.prefetch_related('promotions').all()
+    # query_set = Product.objects.all()
+
     for product in query_set:
         print(product)
 
