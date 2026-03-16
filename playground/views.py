@@ -9,16 +9,8 @@ from tags.models import TaggedItem
 
 def say_hello(request):
     collection = Collection(pk=11)
-    # collection = Collection(title='Video Games')
-    # collection = Collection.objects.get(pk=11)
-    collection.title = 'Video Games'
-    collection.featured_product = None
-    # collection.featured_product_id = 1
-    collection.save()
-    collection.id
-    
-    # Collection.objects.filter(pk=11).update(featured_product=None)
-    # collection = Collection.objects.create(name='a', featured_product_id=1)
-    # collection.id 
-    
+    collection.delete()
+
+    Collection.objects.filter(id__gt=5).delete()
+
     return render(request, 'hello.html', { 'name': 'Ankit'})
