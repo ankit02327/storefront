@@ -4,14 +4,9 @@ from django.db.models import Q, F
 from store.models import Product, OrderItem
 
 def say_hello(request):
-    query_set = Product.objects.values('id','title')
+    query_set = Product.objects.only('id','title')
 
-    # query_set = Product.objects.filter(
-    #    id__in= OrderItem.objects.values('product_id').distinct()).order_by('title')
-    # query_set = OrderItem.objects.values('product_id').distinct()
-    # query_set = Product.objects.values_list('id','title')
-    # query_set = Product.objects.values_list('id','title')
-    # query_set = Product.objects.values('id','title','collection__id')
+    # query_set = Product.objects.defer('description')
     for product in query_set:
         print(product)
 
