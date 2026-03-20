@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+from datetime import timedelta
 
 load_dotenv()
 
@@ -158,3 +159,5 @@ SIMPLE_JWT = {
 AUTH_USER_MODEL = "core.User"
 
 DJOSER = {"SERIALIZERS": {"user_create": "core.serializers.UserCreateSerializer"}}
+
+SIMPLE_JWT = {"ACCESS_TOKEN_LIFETIME": timedelta(days=1)}
