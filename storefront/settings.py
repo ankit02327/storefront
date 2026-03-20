@@ -46,9 +46,9 @@ INSTALLED_APPS = [
     "playground",
     "debug_toolbar",
     "store",
-    "store_custom",
     "tags",
     "likes",
+    "core",
 ]
 
 MIDDLEWARE = [
@@ -147,3 +147,6 @@ REST_FRAMEWORK = {
     "COERCE_DECIMAL_TO_STRING": False,
     # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
 }
+
+
+AUTH_USER_MODEL = "core.User"
