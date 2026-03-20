@@ -1,5 +1,5 @@
 from django.db.models import Count
-from .models import Product, Collection, Review, Cart, CartItem
+from .models import Product, Collection, Review, Cart, CartItem, Customer
 from .serializers import (
     ProductSerializer,
     CollectionSerializer,
@@ -8,6 +8,7 @@ from .serializers import (
     CartItemSerializer,
     AddCartItemSerializer,
     UpdateCartItemSerializer,
+    CustomerSerializer,
 )
 from .filters import ProductFilter
 from .pagination import DefaultPagination
@@ -16,6 +17,7 @@ from rest_framework.mixins import (
     CreateModelMixin,
     RetrieveModelMixin,
     DestroyModelMixin,
+    UpdateModelMixin,
 )
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
@@ -95,3 +97,10 @@ class CartItemViewSet(ModelViewSet):
         return CartItem.objects.filter(cart_id=self.kwargs["cart_pk"]).select_related(
             "product"
         )
+
+
+class CustomerViewSet(
+    CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet
+):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
