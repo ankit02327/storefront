@@ -116,7 +116,7 @@ class CartItem(models.Model):
         Cart, on_delete=models.CASCADE, related_name="items"
     )  # better name than cartitem_set
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveSmallIntegerField()
+    quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
 
     class Meta:
         unique_together = [["cart", "product"]]
