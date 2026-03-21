@@ -12,7 +12,11 @@ from .serializers import (
 )
 from .filters import ProductFilter
 from .pagination import DefaultPagination
-from .permissions import IsAdminOrReadOnly, FullDjangoModelPermissions
+from .permissions import (
+    IsAdminOrReadOnly,
+    FullDjangoModelPermissions,
+    ViewCustomerHistoryPermission,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -108,10 +112,9 @@ class CustomerViewSet(ModelViewSet):
     permission_classes = [FullDjangoModelPermissions]
     # permission_classes = [IsAdminUser]
 
-    # def get_permissions(self):
-    #     if self.request.method == "GET":
-    #         return [AllowAny()]
-    #     return [IsAuthenticated()]
+    @action(detail=True, permission_classes=[ViewCustomerHistoryPermission])
+    def history(self, request, pk):
+        return Response("ok")
 
     @action(detail=False, methods=["GET", "PUT"], permission_classes=[IsAuthenticated])
     def me(self, request):
