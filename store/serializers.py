@@ -1,4 +1,5 @@
 from decimal import Decimal
+from django.db import transaction
 from .models import (
     Product,
     Collection,
@@ -172,10 +173,10 @@ class CreateOrderSerializer(serializers.Serializer):
                 OrderItem(
                     order=order,
                     product=item.product,
-                    unit_price=item.product.unit_price,
+                    unit_price=item.product.price,
                     quantity=item.quantity,
                 )
-                for item in collection
+                for item in cart_items
             ]
             OrderItem.objects.bulk_create(order_items)
 
