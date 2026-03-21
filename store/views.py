@@ -1,5 +1,14 @@
 from django.db.models import Count
-from .models import Product, Collection, Review, Cart, CartItem, Customer, OrderItem
+from .models import (
+    Product,
+    Collection,
+    Review,
+    Cart,
+    CartItem,
+    Customer,
+    OrderItem,
+    Order,
+)
 from .serializers import (
     ProductSerializer,
     CollectionSerializer,
@@ -9,6 +18,7 @@ from .serializers import (
     AddCartItemSerializer,
     UpdateCartItemSerializer,
     CustomerSerializer,
+    OrderSerializer,
 )
 from .filters import ProductFilter
 from .pagination import DefaultPagination
@@ -127,3 +137,8 @@ class CustomerViewSet(ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
+
+
+class OrderViewSet(ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
