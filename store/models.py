@@ -45,6 +45,13 @@ class Product(models.Model):
         ordering = ["title"]
 
 
+class ProductImage(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="images"
+    )
+    image = models.ImageField(upload_to="store/images")
+
+
 # HACK: Sometimes we cannot arrange our code in such a way that Parent class is further up than the Child class.
 # In such cases, we can pass the Parent Class as string. For example 'Collection' instead of the actaul class
 # Collection.
